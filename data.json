@@ -1,0 +1,132 @@
+{
+  "synced_at": "2026-08-28T18:28:08.707215+00:00",
+  "activities": [
+    {
+      "date": "2026-08-28",
+      "name": "7.5k",
+      "sport": "Run",
+      "distance_km": 7.52,
+      "moving_time_sec": 2872,
+      "elevation_m": 8.7,
+      "avg_cadence": 76.6,
+      "calories": 476.0,
+      "pr_count": 3
+    },
+    {
+      "date": "2026-08-26",
+      "name": "Soggy 5k",
+      "sport": "Run",
+      "distance_km": 5.19,
+      "moving_time_sec": 2042,
+      "elevation_m": 42.2,
+      "avg_cadence": null,
+      "calories": 0,
+      "pr_count": 1
+    },
+    {
+      "date": "2026-08-24",
+      "name": "Bryan lungs 10k",
+      "sport": "Run",
+      "distance_km": 10.32,
+      "moving_time_sec": 4517,
+      "elevation_m": 75.2,
+      "avg_cadence": null,
+      "calories": 0,
+      "pr_count": 1
+    },
+    {
+      "date": "2025-03-21",
+      "name": "Evening Walk",
+      "sport": "Walk",
+      "distance_km": 6.96,
+      "moving_time_sec": 4910,
+      "elevation_m": 4.0,
+      "avg_cadence": null,
+      "calories": 0,
+      "pr_count": 0
+    },
+    {
+      "date": "2025-03-16",
+      "name": "Evening Run",
+      "sport": "Run",
+      "distance_km": 3.07,
+      "moving_time_sec": 1277,
+      "elevation_m": 33.8,
+      "avg_cadence": null,
+      "calories": 0,
+      "pr_count": 0
+    },
+    {
+      "date": "2025-03-15",
+      "name": "Evening Walk",
+      "sport": "Walk",
+      "distance_km": 6.56,
+      "moving_time_sec": 3564,
+      "elevation_m": 9.2,
+      "avg_cadence": null,
+      "calories": 0,
+      "pr_count": 0
+    },
+    {
+      "date": "2025-03-14",
+      "name": "1st bibra lake",
+      "sport": "Run",
+      "distance_km": 6.11,
+      "moving_time_sec": 2413,
+      "elevation_m": 7.1,
+      "avg_cadence": null,
+      "calories": null,
+      "pr_count": 0
+    },
+    {
+      "date": "2025-03-13",
+      "name": "Afternoon Run",
+      "sport": "Run",
+      "distance_km": 3.2,
+      "moving_time_sec": 1123,
+      "elevation_m": 27.9,
+      "avg_cadence": null,
+      "calories": null,
+      "pr_count": 0
+    },
+    {
+      "date": "2025-03-12",
+      "name": "Afternoon Run",
+      "sport": "Run",
+      "distance_km": 3.25,
+      "moving_time_sec": 1239,
+      "elevation_m": 27.9,
+      "avg_cadence": null,
+      "calories": null,
+      "pr_count": 0
+    }
+  ],
+  "bests": {
+    "fastest_400m": 123,
+    "fastest_1k": 320,
+    "fastest_mile": 538,
+    "fastest_2mile": 1199,
+    "fastest_5k": 1904,
+    "fastest_10k": 4383
+  },
+  "segments": [
+    {
+      "name": "W Somerville Flats",
+      "distance_m": 991.6,
+      "efforts": [
+        {
+          "date": "2026-08-24",
+          "time_sec": 384
+        },
+        {
+          "date": "2026-08-24",
+          "time_sec": 394
+        },
+        {
+          "date": "2026-08-26",
+          "time_sec": 381
+        }
+      ]
+    }
+  ]
+}
