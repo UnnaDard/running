@@ -44,7 +44,9 @@ def http(url, data=None, headers=None, retries=3):
             if e.code == 429:                      # rate limited
                 time.sleep(8 * (attempt + 1))
                 continue
-            if e.code in (404, 403):
+            # 401/403 usually means the token lacks a scope for this endpoint
+            # (e.g. profile:read_all). Treat as "no data" rather than fatal.
+            if e.code in (401, 403, 404):
                 return None
             if attempt == retries - 1:
                 raise
@@ -76,14 +78,27 @@ def pace_str(dist_m, sec):
     return f"{int(p // 60)}:{int(round(p % 60)):02d}"
 
 
+def safe(label, fn, default=None):
+    """Run an optional section; log and continue if it fails."""
+    try:
+        return fn()
+    except Exception as e:
+        print(f"  ! {label} skipped: {type(e).__name__}: {e}")
+        return default
+
+
 def main():
     token = get_access_token()
     auth = {"Authorization": f"Bearer {token}"}
 
     out = {"synced_at": datetime.now(timezone.utc).isoformat()}
 
+    # Everything below is optional. Each section is wrapped so that a missing
+    # OAuth scope (e.g. profile:read_all) degrades that section rather than
+    # failing the whole run.
+
     # ---- Athlete (non-identifying fields only) ----
-    me = http(f"{API}/athlete", headers=auth) or {}
+    me = safe("athlete", lambda: http(f"{API}/athlete", headers=auth), {}) or {}
     athlete_id = me.get("id")
     out["athlete"] = {
         "measurement": me.get("measurement_preference"),
@@ -92,27 +107,36 @@ def main():
     }
 
     # ---- Lifetime / YTD / recent totals ----
-    if athlete_id:
+    def _totals():
+        if not athlete_id:
+            return None
         stats = http(f"{API}/athletes/{athlete_id}/stats", headers=auth) or {}
+        if not stats:
+            return None
 
-        def totals(key):
-            t = stats.get(key) or {}
+        def t(key):
+            v = stats.get(key) or {}
             return {
-                "count": t.get("count"),
-                "distance_km": round((t.get("distance") or 0) / 1000, 1),
-                "moving_time_sec": t.get("moving_time"),
-                "elevation_m": round(t.get("elevation_gain") or 0),
+                "count": v.get("count"),
+                "distance_km": round((v.get("distance") or 0) / 1000, 1),
+                "moving_time_sec": v.get("moving_time"),
+                "elevation_m": round(v.get("elevation_gain") or 0),
             }
-        out["totals"] = {
-            "all_run": totals("all_run_totals"),
-            "ytd_run": totals("ytd_run_totals"),
-            "recent_run": totals("recent_run_totals"),
+        return {
+            "all_run": t("all_run_totals"),
+            "ytd_run": t("ytd_run_totals"),
+            "recent_run": t("recent_run_totals"),
         }
+    totals_data = safe("totals", _totals)
+    if totals_data:
+        out["totals"] = totals_data
 
     # ---- Training zones ----
-    zones = http(f"{API}/athlete/zones", headers=auth) or {}
-    hr = (zones.get("heart_rate") or {}).get("zones")
-    out["zones"] = {"heart_rate": hr} if hr else {}
+    def _zones():
+        z = http(f"{API}/athlete/zones", headers=auth) or {}
+        hr = (z.get("heart_rate") or {}).get("zones")
+        return {"heart_rate": hr} if hr else {}
+    out["zones"] = safe("zones", _zones, {}) or {}
 
     # ---- Gear from profile ----
     gear_ids = set()
@@ -126,6 +150,9 @@ def main():
     # ---- Activities ----
     summaries = http(
         f"{API}/athlete/activities?per_page={ACTIVITY_COUNT}", headers=auth) or []
+    if not summaries:
+        sys.exit("Could not fetch activities — check the token has activity:read_all scope.")
+    print(f"  fetched {len(summaries)} activities")
 
     activities = []
     best_efforts = {}
@@ -161,7 +188,8 @@ def main():
 
         if i >= DETAIL_COUNT:
             continue
-        detail = http(f"{API}/activities/{a['id']}", headers=auth)
+        detail = safe(f"detail {a.get('id')}",
+                      lambda: http(f"{API}/activities/{a['id']}", headers=auth))
         if not detail:
             continue
 
@@ -284,8 +312,9 @@ def main():
         if not a.get("id"):
             continue
         keys = "distance,altitude,velocity_smooth,cadence,heartrate,time"
-        st = http(f"{API}/activities/{a['id']}/streams?keys={keys}&key_by_type=true",
-                  headers=auth)
+        st = safe(f"streams {a.get('id')}",
+                  lambda: http(f"{API}/activities/{a['id']}/streams?keys={keys}&key_by_type=true",
+                               headers=auth))
         if not st:
             continue
         packed = {}
@@ -303,7 +332,7 @@ def main():
     # ---- Gear referenced by activities ----
     known = {g["name"] for g in out["gear"]}
     for gid in list(gear_ids)[:6]:
-        g = http(f"{API}/gear/{gid}", headers=auth)
+        g = safe(f"gear {gid}", lambda: http(f"{API}/gear/{gid}", headers=auth))
         if g and g.get("name") not in known:
             out["gear"].append({
                 "name": g.get("name"),
