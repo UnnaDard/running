@@ -1,5 +1,5 @@
 {
-  "synced_at": "2026-09-26T10:20:57.047550+00:00",
+  "synced_at": "2026-09-27T10:53:11.349261+00:00",
   "athlete": {
     "measurement": "meters",
     "weight_kg": null,
@@ -19,10 +19,10 @@
       "elevation_m": 150
     },
     "recent_run": {
-      "count": 2,
-      "distance_km": 6.5,
-      "moving_time_sec": 2438,
-      "elevation_m": 24
+      "count": 1,
+      "distance_km": 5.0,
+      "moving_time_sec": 1988,
+      "elevation_m": 16
     }
   },
   "zones": {
