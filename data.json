@@ -1,5 +1,5 @@
 {
-  "synced_at": "2026-09-27T10:53:11.349261+00:00",
+  "synced_at": "2026-09-28T12:04:40.038019+00:00",
   "athlete": {
     "measurement": "meters",
     "weight_kg": null,
@@ -859,12 +859,6 @@
   ],
   "weekly": [
     {
-      "week_start": "2026-07-06",
-      "distance_km": 0.0,
-      "runs": 0,
-      "moving_time_sec": 0
-    },
-    {
       "week_start": "2026-07-13",
       "distance_km": 0.0,
       "runs": 0,
@@ -926,6 +920,12 @@
     },
     {
       "week_start": "2026-09-21",
+      "distance_km": 0.0,
+      "runs": 0,
+      "moving_time_sec": 0
+    },
+    {
+      "week_start": "2026-09-28",
       "distance_km": 0.0,
       "runs": 0,
       "moving_time_sec": 0
