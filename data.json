@@ -1,5 +1,5 @@
 {
-  "synced_at": "2026-10-25T10:13:24.790800+00:00",
+  "synced_at": "2026-10-26T11:36:38.652877+00:00",
   "athlete": {
     "measurement": "meters",
     "weight_kg": null,
@@ -77,7 +77,7 @@
       "suffer_score": 76.0,
       "pr_count": 1,
       "achievement_count": 1,
-      "kudos": 2,
+      "kudos": 3,
       "device": "Garmin Forerunner 165",
       "description": "Steph Bardill",
       "splits": [
@@ -1101,12 +1101,6 @@
   ],
   "weekly": [
     {
-      "week_start": "2026-08-03",
-      "distance_km": 0.0,
-      "runs": 0,
-      "moving_time_sec": 0
-    },
-    {
       "week_start": "2026-08-10",
       "distance_km": 0.0,
       "runs": 0,
@@ -1168,6 +1162,12 @@
     },
     {
       "week_start": "2026-10-19",
+      "distance_km": 0.0,
+      "runs": 0,
+      "moving_time_sec": 0
+    },
+    {
+      "week_start": "2026-10-26",
       "distance_km": 0.0,
       "runs": 0,
       "moving_time_sec": 0
